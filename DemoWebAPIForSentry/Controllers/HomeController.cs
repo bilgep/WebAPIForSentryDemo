@@ -1,4 +1,5 @@
 ﻿using DemoWebAPIForSentry.Exceptions;
+using DemoWebAPIForSentry.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sentry;
@@ -182,6 +183,18 @@ namespace DemoWebAPIForSentry.Controllers
             throw new Api08Exception();
             return Ok();
         }
+
+        [TransactionalSentry]
+        [HttpGet]
+        [Route("/api09")]
+        public ActionResult Api09()
+        {
+            // The [TransactionalSentry] Attibute implements a Filter (Transactional pattern) and creates a custom Sentry Transaction with the Action's name and finishes  the transaction when actions finishes
+            Thread.Sleep(1000);
+            //throw new Api09Exception();
+            return Ok();
+        }
+
     }
 }
 
